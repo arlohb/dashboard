@@ -11,7 +11,10 @@
     gradient
     color="purpleToPink"
     shadow="purple"
-    on:click={() => (textChanged = !textChanged)}>Change</Button
+    class="transition-all duration-300 ease-linear cursor-pointer hover:p-20"
+    on:click={() => (textChanged = !textChanged)}
   >
-  <P>{text}</P>
+    Change
+  </Button>
+  <P class="text-center">{text}</P>
 </Card>
