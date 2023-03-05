@@ -8,7 +8,7 @@ import {
 import { writable, type Writable } from "svelte/store";
 
 export type HistoryState<S> = {
-  last_changed: string;
+  last_changed: Date;
   state: S;
 };
 
@@ -31,7 +31,7 @@ export const getHistory = async <S>(
   const history = json[0] as [{ last_changed: string; state: string }];
 
   return history.map(({ last_changed, state }) => ({
-    last_changed,
+    last_changed: new Date(last_changed),
     state: parseState(state),
   }));
 };
