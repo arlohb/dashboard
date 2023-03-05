@@ -7,6 +7,35 @@ import {
 } from "home-assistant-js-websocket";
 import { writable, type Writable } from "svelte/store";
 
+export type HistoryState<S> = {
+  last_changed: string;
+  state: S;
+};
+
+export const getHistory = async <S>(
+  entity_id: string,
+  parseState: (state: string) => S,
+): Promise<HistoryState<S>[]> => {
+  const response = await fetch(
+    `${
+      import.meta.env.VITE_HA_HOST
+    }/api/history/period?filter_entity_id=${entity_id}&minimal_response`,
+    {
+      headers: {
+        Authorization: `Bearer ${import.meta.env.VITE_HA_LLAT}`,
+      },
+    },
+  );
+
+  const json = await response.json();
+  const history = json[0] as [{ last_changed: string; state: string }];
+
+  return history.map(({ last_changed, state }) => ({
+    last_changed,
+    state: parseState(state),
+  }));
+};
+
 export const displayValue = (entity: HassEntity): string => {
   return `${entity.state} ${entity.attributes.unit_of_measurement ?? ""}`;
 };
