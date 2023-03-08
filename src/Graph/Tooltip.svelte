@@ -16,7 +16,6 @@
 
   $: xPercent = xPixels / $containerWidth;
   $: hoveredDate = $xScale.invert(xPercent);
-  $: console.log($xScale.invert(1));
 </script>
 
 <div

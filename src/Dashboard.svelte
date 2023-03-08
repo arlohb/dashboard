@@ -4,6 +4,7 @@
   import Card from "./Components/Card.svelte";
   import P from "./Components/P.svelte";
   import { displayValue, haConn, haEntities } from "./ha";
+  import Map from "./Map.svelte";
 </script>
 
 <Card class="space-y-4 bg-dark border-dark-500">
@@ -39,3 +40,7 @@
 </Card>
 
 <Card />
+
+<Card class="col-span-3 row-span-2">
+  <Map />
+</Card>
