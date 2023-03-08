@@ -5,6 +5,7 @@
   import P from "./Components/P.svelte";
   import { haEntities } from "./ha";
   import dateFormat from "dateformat";
+  import { getBuses } from "./bods";
 
   let leafletMap: LeafletMap;
   // I'd love to use the GeoLocation API for this,
@@ -13,6 +14,9 @@
     import.meta.env.VITE_MAP_LAT,
     import.meta.env.VITE_MAP_LONG,
   ];
+
+  /* const buses = getBuses([10058, 7035, 1695, 1692], 10); */
+  const buses = getBuses([1695], 1);
 
   $: userPosition ?? leafletMap?.getMap().flyTo(userPosition);
 
@@ -69,4 +73,16 @@
       </DivIcon>
     </Marker>
   {/each}
+
+  {#await buses then buses}
+    {#each buses as bus}
+      <Marker latLng={bus.vehicleLocation}>
+        <Tooltip>
+          <div class="w-full h-full bg-dark">
+            <P>{bus.publishedLineName}</P>
+          </div>
+        </Tooltip>
+      </Marker>
+    {/each}
+  {/await}
 </LeafletMap>
